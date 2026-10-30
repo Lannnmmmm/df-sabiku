@@ -1,0 +1,152 @@
+{
+  "_catatan": "Berkas ini dibaca otomatis. Kolom yang dikosongkan (\"\") tidak ditampilkan di situs. Dua bahasa: id = Indonesia, en = English.",
+  "name": "Dewi Fatmawaty Sabiku",
+  "degrees": "S.P., M.Si.",
+  "role": {
+    "id": "Dosen dan peneliti teknologi benih",
+    "en": "Lecturer and seed technology researcher"
+  },
+  "institution": "Politeknik Negeri Jember",
+  "program": {
+    "id": "Program Studi Teknik Produksi Benih",
+    "en": "Seed Production Technology Study Program"
+  },
+  "position": {
+    "id": "Asisten Ahli",
+    "en": "Assistant Professor (Asisten Ahli)"
+  },
+  "tagline": {
+    "id": "Mengeksplorasi ilmu dan teknologi benih untuk mendukung produktivitas pertanian berkelanjutan",
+    "en": "Exploring seed science and technology to support sustainable agricultural productivity"
+  },
+  "bio": {
+    "id": [
+      "Dewi Fatmawaty Sabiku adalah dosen tetap Program Studi Teknik Produksi Benih, Politeknik Negeri Jember, dengan jabatan fungsional Asisten Ahli.",
+      "Ia menyelesaikan pendidikan sarjana Agroteknologi di Universitas Negeri Gorontalo (2015) dan magister Ilmu dan Teknologi Benih di Institut Pertanian Bogor (2019).",
+      "Karya yang tercatat di PDDikti mencakup artikel jurnal dan prosiding tentang teknologi benih, termasuk biopriming dan priming benih, buku referensi, kegiatan pengabdian kepada masyarakat, serta hak cipta."
+    ],
+    "en": [
+      "Dewi Fatmawaty Sabiku is a permanent lecturer in the Seed Production Technology Study Program at Politeknik Negeri Jember, with the functional rank of Asisten Ahli (Assistant Professor).",
+      "She completed her bachelor's degree in Agrotechnology at Universitas Negeri Gorontalo (2015) and her master's degree in Seed Science and Technology at IPB University (2019).",
+      "Her works recorded in PDDikti include journal and proceedings papers on seed technology, including seed biopriming and priming, reference books, community service activities, and copyrights."
+    ]
+  },
+  "education": [
+    {
+      "level": "S2",
+      "year": 2019,
+      "institution": "Institut Pertanian Bogor",
+      "program": {
+        "id": "Magister Sains, Ilmu dan Teknologi Benih",
+        "en": "Master of Science, Seed Science and Technology"
+      }
+    },
+    {
+      "level": "S1",
+      "year": 2015,
+      "institution": "Universitas Negeri Gorontalo",
+      "program": {
+        "id": "Sarjana Pertanian, Agroteknologi",
+        "en": "Bachelor of Agriculture, Agrotechnology"
+      }
+    }
+  ],
+  "researchFocus": [
+    {
+      "title": {
+        "id": "Priming dan biopriming benih",
+        "en": "Seed priming and biopriming"
+      },
+      "text": {
+        "id": "Perlakuan benih sebelum tanam untuk meningkatkan vigor dan mutu benih, antara lain dengan Trichoderma harzianum dan Spirulina platensis.",
+        "en": "Pre-sowing seed treatments to improve seed vigor and quality, including with Trichoderma harzianum and Spirulina platensis."
+      },
+      "refs": [
+        "publikasi/2026-biopriming-trichoderma-edamame",
+        "publikasi/2025-seed-vigor-cabai-merah-spirulina"
+      ]
+    },
+    {
+      "title": {
+        "id": "Mutu dan teknologi benih",
+        "en": "Seed quality and technology"
+      },
+      "text": {
+        "id": "Pengujian keunggulan galur kedelai, serta buku tentang dasar-dasar teknologi benih dan K3LH produksi benih.",
+        "en": "Superiority testing of soybean lines, plus books on seed technology fundamentals and occupational safety in seed production."
+      },
+      "refs": [
+        "publikasi/2024-uji-keunggulan-galur-murni-kedelai",
+        "publikasi/2025-buku-dasar-dasar-teknologi-benih",
+        "publikasi/2024-buku-k3lh-produksi-benih"
+      ]
+    },
+    {
+      "title": {
+        "id": "Hidroponik dan kemandirian pangan",
+        "en": "Hydroponics and food self-reliance"
+      },
+      "text": {
+        "id": "Sosialisasi budidaya sayuran hidroponik bagi masyarakat perumahan bersubsidi.",
+        "en": "Outreach on hydroponic vegetable cultivation for residents of subsidized housing."
+      },
+      "refs": [
+        "publikasi/2025-sosialisasi-hidroponik-perumahan-subsidi"
+      ]
+    },
+    {
+      "title": {
+        "id": "Usahatani dan agribisnis",
+        "en": "Farm business and agribusiness"
+      },
+      "text": {
+        "id": "Analisis usaha tani bibit tebu bagal dan buah semangka.",
+        "en": "Farm business analysis of sugarcane bagal seedlings and watermelon."
+      },
+      "refs": [
+        "publikasi/2025-usaha-tani-bibit-tebu-bagal-balung",
+        "penelitian/2024-analisis-usahatani-semangka-sempidi"
+      ]
+    },
+    {
+      "title": {
+        "id": "Perlindungan tanaman",
+        "en": "Plant protection"
+      },
+      "text": {
+        "id": "Survei sebaran dan populasi hama penggerek buah kopi (PBKo) pada berbagai ketinggian lahan kopi arabika di Bondowoso.",
+        "en": "A survey of coffee berry borer (PBKo) distribution and population across altitudes in Arabica coffee plantations in Bondowoso."
+      },
+      "refs": [
+        "publikasi/2025-survei-hama-pbko-kopi-arabika-bondowoso"
+      ]
+    },
+    {
+      "title": {
+        "id": "Pemberdayaan dan pengolahan hasil",
+        "en": "Community empowerment and product processing"
+      },
+      "text": {
+        "id": "Teh kuncup mawar bersama KWT, pemanfaatan limbah kulit kopi bersama kelompok tani hutan, dan pelatihan krisan untuk siswa sekolah dasar.",
+        "en": "Rosebud tea with a women farmers' group, coffee husk reuse with a forest farmers' group, and chrysanthemum training for primary school students."
+      },
+      "refs": [
+        "publikasi/2024-teh-kuncup-mawar-kwt-nawasena",
+        "pengabdian/2025-limbah-kulit-kopi-kth-santoso-lestari",
+        "pengabdian/2025-pelatihan-budidaya-krisan-sdn-kemuning-lor-3"
+      ]
+    }
+  ],
+  "links": {
+    "email": "",
+    "scholar": "",
+    "sinta": "",
+    "scopus": "",
+    "orcid": "",
+    "researchgate": "",
+    "pddikti": "https://pddikti.kemdiktisaintek.go.id/search/dewi%20fatmawaty%20sabiku",
+    "institution": "https://www.polije.ac.id"
+  },
+  "address": "Politeknik Negeri Jember, Jl. Mastrip PO Box 164, Jember 68101",
+  "contactFormEndpoint": ""
+}

@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+# Dihasilkan otomatis oleh scripts/build-content.mjs
+src/generated/content.json
+public/media/
