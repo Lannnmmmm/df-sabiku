@@ -6,7 +6,8 @@ Catatan keputusan, asal data, dan status pengujian. Ditulis pada 30 Oktober 2026
 
 | Hal | Keputusan | Alasan |
 |---|---|---|
-| Tema | Hijau gelap dalam (`#0A1F13` ke `#0F2A1A`) dengan aksen cerah (`#2ECC71`, `#A8E6CF`) | pilihan pemilik situs |
+| Tema | Teal gelap (`#0B2528` ke `#12383A`) dengan aksen madu (`#F7C873`), mawar (`#F4B6C2`), mint, dan biru langit. Cahaya latar berganti rona per tahap pertumbuhan | versi awal memakai hijau gelap dengan aksen hijau cerah; pemilik situs menilai terlalu hijau, jadi diganti pada 31 Oktober 2026. Mawar dan krem diambil dari warna jilbab dan blazer pada foto |
+| Gulir | Mode satu halaman: satu bagian per layar, satu gerakan roda berpindah satu halaman | permintaan pemilik situs. Hanya di layar lebar dan cukup tinggi; di ponsel dan layar pendek tetap gulir biasa karena isi tidak bisa dipadatkan ke satu layar |
 | Komposisi hero | Foto di tengah, partikel mengelilingi, nama dan afiliasi di bagian bawah | pilihan pemilik situs. Nama diletakkan di bawah supaya tidak menutupi wajah |
 | Arsitektur | Kanvas WebGL tetap di belakang, semua teks dan kartu di DOM | SEO, pembaca layar, seleksi teks, dan `backdrop-filter` tetap bekerja |
 | Foto | Cutout dan peta kedalaman, rotasi dibatasi sekitar 15 derajat | batas ini menjaga wajah tidak melar. Foto 2D tidak bisa benar-benar menoleh |
@@ -53,12 +54,18 @@ Dilakukan di lingkungan pembuatan, tanpa akses ke registri npm:
 | Mode statis (`?static`) | tangkapan layar | berfungsi |
 | Sistem folder konten | folder uji berisi dua gambar dan satu PDF tanpa `index.md`, lalu dihapus | muncul otomatis di Galeri. Gambar 1,9 MB dikompres menjadi 0,5 MB, thumbnail dibuat, PDF tersalin, sampul dipilih otomatis |
 | Kecocokan data | dibandingkan dengan data PDDikti yang disalin pemilik | cocok (lihat penyesuaian di atas) |
-| Kontras warna | dihitung dengan rumus WCAG | di atas 4,5:1 pada latar gelap. Lihat catatan di ARSITEKTUR.md |
+| Kontras warna | dihitung dengan rumus WCAG, termasuk pada titik paling terang dari tangkapan layar | di atas 5:1 di semua titik yang diukur (AA butuh 4,5:1). Lihat ARSITEKTUR.md |
+| Build Vite dan typecheck | GitHub Actions pada push pertama | berhasil, dan situs ter-deploy |
+| Mode satu halaman | Chromium headless, roda sintetis 7 tik turun dan 7 tik naik, 1440x900 | berpindah tepat satu halaman per tik, naik dan turun, tanpa melompati halaman |
+| Satu bagian satu layar | ukur tinggi tiap bagian di 1440x900, 1280x720, dan 1024x768 | semua bagian sama persis dengan tinggi layar |
+| Roda di jendela detail | buka dialog lalu gulir | halaman tidak berpindah |
+| Ponsel dan gerak dikurangi | 390x844 dan `reducedMotion` | mode satu halaman mati, gulir biasa |
 
 **Belum teruji:**
 
-- **Build Vite yang sebenarnya.** Vite tidak bisa dipasang di lingkungan pembuatan, jadi build produksi pertama terjadi di GitHub Actions. Bila gagal, log di tab Actions menunjukkan penyebabnya.
-- **Pemeriksaan tipe TypeScript penuh** (`npm run typecheck`). Dijalankan sebagai langkah peringatan di CI dan tidak menghentikan deploy.
+- **Roda mouse dan trackpad sungguhan.** Pengujian memakai roda sintetis dari Playwright. Perilaku trackpad dengan inersia panjang (terutama di Mac) dan mouse dengan roda bebas-putar sebaiknya dicoba langsung. Bila terasa terlalu cepat atau lambat, atur `COOLDOWN` dan `QUIET` di `src/lib/pager.ts`.
+- **Galeri dengan banyak foto pada mode satu halaman.** Rancangannya: bagian yang lebih tinggi dari layar digulir normal dulu sebelum pindah halaman. Logikanya sudah diuji dengan konten tambahan buatan, tetapi belum dengan foto sungguhan.
+- **Build Vite dan typecheck setelah perubahan 31 Oktober.** Build awal sudah lolos di GitHub Actions. Perubahan ini baru diuji dengan bundel esbuild lokal dan pemeriksaan tipe yang disaring; hasil akhirnya terlihat di tab Actions setelah push.
 - **Perangkat sungguhan.** WebGL diuji dengan renderer perangkat lunak. Kinerja pada ponsel tertentu belum diukur. Penyesuaian kualitas otomatis ada, tetapi sebaiknya dicoba di beberapa ponsel.
 - **Font Geist dan Newsreader.** Di lingkungan pembuatan Google Fonts diblokir, sehingga pengujian memakai font cadangan (mirip Times). Tampilan akhir memakai font asli dan sedikit berbeda dalam lebar teks.
 - **Pratinjau tautan** (WhatsApp, LinkedIn) belum diuji, karena butuh alamat publik.

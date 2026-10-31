@@ -26,10 +26,13 @@ Prinsip utamanya **hibrida**: satu kanvas WebGL tetap (`position: fixed`) di bel
 | `src/lib/i18n.tsx` | Teks antarmuka ID/EN (`STRINGS`), pilihan bahasa disimpan di `localStorage` |
 | `src/lib/store.ts` | Status bersama yang dibaca scene tiap frame (posisi gulir, kursor, progres muat). Sengaja bukan state React |
 | `src/lib/scroll.ts` | Mengubah posisi gulir menjadi "tahap" kontinu lewat atribut `data-stage` pada `<section>` |
+| `src/lib/pages.ts` | Menentukan apakah mode satu halaman aktif (`PAGE_QUERY`) |
+| `src/lib/pager.ts` | Pengendali roda: satu gerakan roda berpindah tepat satu halaman |
 | `src/lib/quality.ts` | Deteksi tingkat kualitas, WebGL, dan `prefers-reduced-motion` |
 | `src/gl/HeroScene.ts` | Kelas yang memiliki renderer, foto, partikel, latar, dan loop render |
 | `src/gl/targets.ts` | Posisi tujuan partikel: awan, tumbuhan, spiral, penyebaran (berbenih acak tetap) |
 | `src/gl/shaders.ts` | GLSL untuk partikel, foto, dan latar |
+| `src/ui/PageDots.tsx` | Titik penanda halaman di kanan, dan penanda bagian aktif (`is-active`) untuk animasi masuk |
 | `src/ui/*` | Komponen halaman. `Research.tsx` menggerakkan kartu yang mengorbit, `Modal.tsx` berisi dialog detail dan lightbox |
 | `src/styles/global.css` | Seluruh gaya. Warna dan jarak ada di variabel `:root` |
 
@@ -56,6 +59,27 @@ Setiap bagian halaman menandai tahap yang harus dicapai ketika tiba di layar:
 - foto terurai menjadi partikel pada tahap 0 sampai 0,6
 
 Label di tepi kanan (`GrowthRail`) membaca `grow`, `spiral`, dan `calm` dari `store`, sehingga selalu cocok dengan yang sedang digambar. Urutan tahap sesuai fisiologi benih: imbibisi, munculnya radikula, pemanjangan tunas, bibit, fase vegetatif.
+
+## Mode satu halaman
+
+Di layar lebar dan cukup tinggi (`PAGE_QUERY` di `src/lib/pages.ts`: lebar minimal 1024 px, tinggi minimal 620 px, dan pengguna tidak meminta gerak dikurangi), setiap bagian menempati tepat satu layar dan gulir berpindah per bagian. Di ponsel, layar pendek, dan mode gerak dikurangi, halaman menggulir biasa.
+
+Cara kerjanya:
+
+- `App.tsx` memasang atribut `data-pages="on"` pada `<html>`. Semua aturan satu halaman di `global.css` memakai awalan `html[data-pages='on']`, jadi di luar mode ini CSS tidak berubah.
+- CSS `scroll-snap-type: y mandatory` dengan `scroll-snap-stop: always` menangani **keyboard** (panah, PageDown, Spasi), **sentuhan**, tombol navigasi, dan titik halaman.
+- **Roda mouse dan trackpad ditangani `pager.ts`**, bukan snap CSS. Alasannya: pada uji, satu "tik" roda kecil dengan snap `mandatory` saja bisa berakhir kembali di halaman yang sama. `pager.ts` membatalkan gulir bawaan dan menggulir ke halaman berikutnya atau sebelumnya (`scrollTo` halus), dengan jeda sekitar 0,75 detik dan penyaring inersia trackpad. Roda dibiarkan bekerja bawaan di dalam `<dialog>`, di elemen yang punya gulir sendiri, atau saat zoom cubit.
+- Bagian yang lebih tinggi dari layar (misalnya galeri dengan banyak foto) digulir normal sampai tepinya terlihat, baru pindah halaman.
+- `setPageMode` di `scroll.ts` membuat tahap pertumbuhan tercapai tepat di puncak tiap bagian (bukan 0,3 tinggi layar lebih awal), karena gulir selalu berhenti di sana.
+- Agar tiap bagian muat dalam satu layar, daftar Publikasi dipecah per 4 karya (`PER_PAGE` di `Publications.tsx`), kartu Penelitian mengorbit di seluruh area, dan lima tahap Perkecambahan disusun dua kolom. Aturannya ada di akhir `global.css` ("pemadatan per bagian").
+
+## Warna
+
+Palet ada di variabel awal `global.css`: dasar teal gelap (`--bg-0`, `--bg-1`), aksen madu (`--gold`, aksen utama), mawar (`--rose`, dari warna jilbab pada foto), mint, dan biru langit. Warna yang sama dipakai di WebGL:
+
+- Latar: `BG_FRAG` di `shaders.ts`. Rona cahayanya berganti per tahap lewat tabel `TINTS` di `HeroScene.ts` (hangat di hero, teal di Tentang, biru di Penelitian, tembaga di Perkecambahan, mawar di Publikasi, biru langit di Kontak). Ubah angka di tabel itu untuk menyetel suasananya.
+- Tumbuhan dan kilau: `C` di `targets.ts`. Spiral berwarna madu ke mawar, dan penyebaran biji berwarna biru langit, di `PARTICLE_VERT`.
+- Bila mengganti `--bg-0`, ubah juga `top`/`bottom` di `BG_FRAG`, `setClearColor` di `HeroScene.ts`, dan `theme-color` di `index.html`.
 
 ## Foto semi-3D
 
@@ -101,7 +125,9 @@ Hitungan 0 sampai 100 persen mengikuti **progres sebenarnya**: empat langkah (cu
 | Ukuran foto | `PHOTO_W` di `HeroScene.ts` |
 | Bentuk tumbuhan, spiral, warna | `src/gl/targets.ts` |
 | Posisi tumbuhan di layar | `plantX` di `HeroScene.resize` (dan `0.7` di `Research.tsx` untuk orbit) |
-| Warna dan font | variabel di awal `src/styles/global.css` dan tag `<link>` font di `index.html` |
+| Warna dan font | variabel di awal `src/styles/global.css`, `TINTS` di `HeroScene.ts`, `C` di `targets.ts`, dan tag `<link>` font di `index.html` |
+| Kapan mode satu halaman aktif | `PAGE_QUERY` di `src/lib/pages.ts` |
+| Jumlah publikasi per halaman | `PER_PAGE` di `src/ui/Publications.tsx` |
 | Teks antarmuka | `STRINGS` di `src/lib/i18n.tsx` (tambahkan kunci yang sama di `id` dan `en`) |
 | Urutan tahap per bagian | atribut `data-stage` di komponen bagian |
 
@@ -111,9 +137,10 @@ Bila foto diganti, ukuran gambar baru perlu disesuaikan di `HeroScene.ts` (`840 
 
 - Kanvas bersifat `aria-hidden`. Seluruh isi ada di teks DOM.
 - Tautan "Lewati ke konten", urutan judul yang benar, `aria-pressed` pada tombol bahasa dan filter, dialog asli (`<dialog>`) untuk jendela detail, dan indikator fokus yang jelas.
-- Kontras di atas latar gelap (`--bg-0`): teks utama 16,2:1, `--sage` 9,9:1, `--sage-dim` 8,6:1, aksen 12,2:1 (semuanya di atas batas AA 4,5:1). Di area terang tepat di belakang tumbuhan (sekitar `#1c5a38`) kontras `--sage` turun ke 4,7:1 dan `--sage-dim` ke sekitar 4,1:1. Karena itu teks panjang diletakkan di sisi kiri dengan lapisan gelap (`.section::before`) atau di dalam lembar/kartu berlatar gelap, bukan langsung di atas tumbuhan. Bila menambah teks kecil di sisi kanan, periksa kontrasnya.
-- `prefers-reduced-motion` mematikan WebGL, animasi, dan transisi.
+- Kontras di atas latar gelap (`--bg-0`, `#0b2528`): teks utama 15,2:1, `--sage` 10,9:1, `--sage-dim` 9,0:1, `--gold` 10,3:1, `--rose` 9,4:1 (semuanya di atas batas AA 4,5:1). Pada titik paling terang yang diukur dari tangkapan layar (cahaya rona di dekat tumbuhan atau spiral), kontras `--sage` tetap sekitar 6:1 dan `--sage-dim` sekitar 5:1. Teks panjang tetap diletakkan di sisi kiri dengan lapisan gelap (`.section::before`) atau di dalam lembar/kartu berlatar gelap. Bila menambah teks kecil di sisi kanan, periksa kontrasnya, terutama setelah mengubah `TINTS`.
+- `prefers-reduced-motion` mematikan WebGL, animasi, transisi, dan mode satu halaman.
+- Titik halaman (`PageDots`) berupa tombol dengan label dan `aria-current`. Keyboard memakai snap CSS bawaan.
 
 ## Mengapa tidak ada library animasi UI
 
-Brief menyebut Framer Motion atau GSAP bersama smooth scroll. Dua library animasi sekaligus berisiko bentrok dengan loop render WebGL dan menambah ukuran halaman. Karena kebutuhan animasinya terbatas (fade, orbit kartu, hitungan preloader), semuanya ditulis dengan CSS dan `requestAnimationFrame`. Gulir memakai `scroll-behavior: smooth` bawaan browser. Bila nanti butuh kendali gulir yang lebih halus, Lenis bisa ditambahkan tanpa mengubah `store.scrollY`.
+Brief menyebut Framer Motion atau GSAP bersama smooth scroll. Dua library animasi sekaligus berisiko bentrok dengan loop render WebGL dan menambah ukuran halaman. Karena kebutuhan animasinya terbatas (fade, orbit kartu, hitungan preloader), semuanya ditulis dengan CSS dan `requestAnimationFrame`. Gulir memakai `scroll-behavior: smooth` bawaan browser, ditambah pengendali roda kecil (`pager.ts`) untuk mode satu halaman. Bila nanti butuh kendali gulir yang lebih halus, Lenis bisa ditambahkan tanpa mengubah `store.scrollY`, tetapi `pager.ts` perlu disesuaikan agar tidak berebut kendali.

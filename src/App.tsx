@@ -2,7 +2,9 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { I18nProvider } from './lib/i18n'
 import { detectQuality, prefersReducedMotion, webglSupported } from './lib/quality'
 import { loader, store } from './lib/store'
-import { startScrollTracking } from './lib/scroll'
+import { setPageMode, startScrollTracking } from './lib/scroll'
+import { usePageMode } from './lib/pages'
+import { startPager } from './lib/pager'
 import type { HeroScene } from './gl/HeroScene'
 import { ModalProvider } from './ui/Modal'
 import { Preloader } from './ui/Preloader'
@@ -10,6 +12,7 @@ import { Stage } from './ui/Stage'
 import { StaticBackdrop } from './ui/StaticBackdrop'
 import { Nav } from './ui/Nav'
 import { GrowthRail } from './ui/GrowthRail'
+import { PageDots } from './ui/PageDots'
 import { Hero } from './ui/Hero'
 import { About } from './ui/About'
 import { Research } from './ui/Research'
@@ -45,6 +48,7 @@ export default function App() {
   const [loading, setLoading] = useState(mode === 'webgl')
   const sceneRef = useRef<HeroScene | null>(null)
   const wide = useMedia('(min-width: 1024px)')
+  const pages = usePageMode()
 
   // gulir dan kursor
   useEffect(() => {
@@ -64,6 +68,17 @@ export default function App() {
       document.documentElement.removeEventListener('pointerleave', onLeave)
     }
   }, [])
+
+  // mode satu halaman: CSS membaca atribut ini, dan jangkar tahap pertumbuhan diukur ulang
+  useEffect(() => {
+    document.documentElement.dataset.pages = pages ? 'on' : 'off'
+    setPageMode(pages)
+    const stopPager = pages ? startPager() : undefined
+    return () => {
+      stopPager?.()
+      delete document.documentElement.dataset.pages
+    }
+  }, [pages])
 
   // font termasuk langkah pemuatan, tapi tidak ditunggu lebih dari 2,5 detik
   useEffect(() => {
@@ -102,6 +117,7 @@ export default function App() {
         )}
         <Nav />
         {mode === 'webgl' && wide && <GrowthRail />}
+        {pages && <PageDots />}
         <main id="main">
           <Hero staticPhoto={mode === 'static'} />
           <About />

@@ -77,10 +77,10 @@ void main() {
   p.z += f * 0.8;
 
   // warna
-  vec3 spiralCol = mix(vec3(0.18, 0.80, 0.44), vec3(0.66, 0.90, 0.81), clamp(length(aSpiral.xy) / 3.7, 0.0, 1.0));
-  if (aRand.y > 0.94) spiralCol = vec3(0.95, 0.78, 0.76);
+  vec3 spiralCol = mix(vec3(0.97, 0.78, 0.45), vec3(0.96, 0.71, 0.76), clamp(length(aSpiral.xy) / 3.7, 0.0, 1.0));
+  if (aRand.y > 0.94) spiralCol = vec3(0.66, 0.90, 0.81);
   vec3 col = mix(aColor, spiralCol, sp);
-  col = mix(col, vec3(0.66, 0.90, 0.81) * 0.92, ca * 0.5);
+  col = mix(col, vec3(0.62, 0.85, 0.94) * 0.95, ca * 0.55);
   vColor = col;
 
   // kemunculan bertahap saat intro
@@ -167,7 +167,7 @@ void main() {
   float thr = uDissolve * 1.08;
   if (val < thr) discard;
   float edge = smoothstep(thr + 0.07, thr, val);
-  vec3 glow = vec3(0.50, 0.81, 0.63);
+  vec3 glow = vec3(0.97, 0.78, 0.45);
   c.rgb = mix(c.rgb, glow, edge * 0.85);
 
   float a = c.a * uOpacity;
@@ -188,17 +188,18 @@ void main() {
 
 export const BG_FRAG = /* glsl */ `
 uniform float uGlow;
+uniform vec3 uTint;
 uniform vec2 uCenter;
 uniform float uAspect;
 varying vec2 vUv;
 
 void main() {
-  vec3 top = vec3(0.039, 0.122, 0.075);   // #0A1F13
-  vec3 bottom = vec3(0.059, 0.165, 0.102); // #0F2A1A
+  vec3 top = vec3(0.043, 0.145, 0.157);   // #0B2528
+  vec3 bottom = vec3(0.071, 0.220, 0.227); // #12383A
   vec3 col = mix(bottom, top, smoothstep(0.0, 1.0, vUv.y));
   vec2 q = (vUv - uCenter) * vec2(uAspect, 1.0);
   float g = exp(-dot(q, q) * 2.6);
-  col += vec3(0.07, 0.24, 0.15) * g * (0.45 + 0.55 * uGlow);
+  col += uTint * g * (0.55 + 0.45 * uGlow);
   // vinyet halus
   vec2 v = vUv - 0.5;
   col *= 1.0 - dot(v, v) * 0.55;

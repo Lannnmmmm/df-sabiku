@@ -36,14 +36,15 @@ const hex = (h: string): [number, number, number] => [
 ]
 
 const C = {
-  leaf: hex('#2ECC71'),
-  leafDeep: hex('#27AE60'),
-  leafSoft: hex('#7DCEA0'),
-  mint: hex('#A8E6CF'),
-  stem: hex('#4FC283'),
-  root: hex('#BFD9B0'),
-  seed: hex('#E8E0C8'),
-  blush: hex('#F2C6C2'),
+  leaf: hex('#8EE0A8'),
+  leafDeep: hex('#4FBF9A'),
+  leafSoft: hex('#B7EBC8'),
+  mint: hex('#B8F0DC'),
+  stem: hex('#6FCFA0'),
+  root: hex('#E8D9A8'),
+  seed: hex('#FFE7B8'),
+  blush: hex('#F6B8C6'),
+  gold: hex('#F7C873'),
 }
 
 const mix = (a: number[], b: number[], k: number): [number, number, number] => [
@@ -239,10 +240,11 @@ export function buildTargets(n: number): Targets {
     )
   }
 
-  // kilau: sebagian kecil partikel berwarna krem atau merah muda lembut dan lebih besar
+  // kilau: sebagian kecil partikel berwarna madu, krem, atau mawar lembut dan lebih besar
   for (let k = 0; k < n; k++) {
-    if (R() < 0.06) {
-      const c = R() < 0.35 ? C.blush : C.seed
+    if (R() < 0.12) {
+      const r = R()
+      const c = r < 0.4 ? C.blush : r < 0.75 ? C.gold : C.seed
       color[k * 3] = c[0]
       color[k * 3 + 1] = c[1]
       color[k * 3 + 2] = c[2]

@@ -4,6 +4,7 @@ import type { Lang, L10n } from './content'
 const STRINGS = {
   id: {
     skip: 'Langsung ke konten',
+    'nav.top': 'Awal',
     'nav.about': 'Tentang',
     'nav.research': 'Penelitian',
     'nav.growth': 'Perkecambahan',
@@ -51,6 +52,9 @@ const STRINGS = {
     'pub.hki': 'Hak cipta',
     'pub.lain': 'Lainnya',
     'pub.source': 'Daftar ini diambil dari PDDikti. Tautan dan berkas ditambahkan lewat folder konten.',
+    'pub.prev': 'Sebelumnya',
+    'pub.next': 'Berikutnya',
+    'pub.page': 'Halaman',
     'out.title': 'Pengabdian kepada masyarakat',
     'out.none': 'Belum ada kegiatan pengabdian yang ditampilkan.',
     'gal.title': 'Galeri dokumentasi',
@@ -94,6 +98,7 @@ const STRINGS = {
   },
   en: {
     skip: 'Skip to content',
+    'nav.top': 'Top',
     'nav.about': 'About',
     'nav.research': 'Research',
     'nav.growth': 'Germination',
@@ -141,6 +146,9 @@ const STRINGS = {
     'pub.hki': 'Copyrights',
     'pub.lain': 'Other',
     'pub.source': 'This list comes from PDDikti. Links and files are added through the content folders.',
+    'pub.prev': 'Previous',
+    'pub.next': 'Next',
+    'pub.page': 'Page',
     'out.title': 'Community service',
     'out.none': 'No outreach activities to show yet.',
     'gal.title': 'Documentation gallery',

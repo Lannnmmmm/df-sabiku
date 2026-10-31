@@ -6,6 +6,15 @@ interface Anchor {
 }
 
 let anchors: Anchor[] = [{ y: 0, s: 0 }]
+/** Seberapa awal (dalam tinggi layar) tahap sebuah bagian tercapai sebelum bagian itu tiba di puncak layar. */
+let lead = 0.3
+
+/** Pada mode satu halaman gulir berhenti tepat di puncak bagian, jadi tahap dicapai di sana. */
+export function setPageMode(on: boolean) {
+  lead = on ? 0 : 0.3
+  measureAnchors()
+  store.stage = stageAt(window.scrollY)
+}
 
 /**
  * Setiap <section data-stage="n"> menandai tahap pertumbuhan yang harus tercapai
@@ -18,7 +27,7 @@ export function measureAnchors() {
   const els = Array.from(document.querySelectorAll<HTMLElement>('[data-stage]'))
   const list = els.map((el, i) => {
     const top = el.getBoundingClientRect().top + window.scrollY
-    const y = i === 0 ? 0 : Math.min(top - vh * 0.3, maxScroll)
+    const y = i === 0 ? 0 : Math.min(top - vh * lead, maxScroll)
     return { y, s: Number(el.dataset.stage) }
   })
   // y harus naik monoton supaya interpolasi masuk akal

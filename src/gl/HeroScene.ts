@@ -10,6 +10,34 @@ const PHOTO_W = 4.9
 const PHOTO_H = (PHOTO_W * 780) / 840
 
 const clamp01 = (x: number) => Math.min(1, Math.max(0, x))
+
+/**
+ * Rona cahaya latar per tahap gulir. Berganti dari hangat (foto) ke sejuk (tumbuhan),
+ * lalu madu dan mawar (spiral), dan biru langit (penyebaran biji), supaya halaman tidak monoton hijau.
+ */
+const TINTS: [number, [number, number, number]][] = [
+  [0, [0.3, 0.17, 0.15]],
+  [1, [0.06, 0.26, 0.24]],
+  [2, [0.07, 0.23, 0.3]],
+  [2.4, [0.4, 0.13, 0.03]],
+  [3, [0.34, 0.15, 0.23]],
+  [3.25, [0.36, 0.19, 0.17]],
+  [3.5, [0.38, 0.15, 0.05]],
+  [4, [0.1, 0.24, 0.34]],
+]
+
+function tintAt(s: number, out: THREE.Vector3) {
+  if (s <= TINTS[0][0]) return out.set(...TINTS[0][1])
+  for (let i = 1; i < TINTS.length; i++) {
+    if (s <= TINTS[i][0]) {
+      const [s0, a] = TINTS[i - 1]
+      const [s1, b] = TINTS[i]
+      const k = (s - s0) / (s1 - s0)
+      return out.set(a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k, a[2] + (b[2] - a[2]) * k)
+    }
+  }
+  return out.set(...TINTS[TINTS.length - 1][1])
+}
 const smooth = (x: number) => {
   const t = clamp01(x)
   return t * t * (3 - 2 * t)
@@ -75,7 +103,7 @@ export class HeroScene {
       alpha: false,
       powerPreference: 'high-performance',
     })
-    this.renderer.setClearColor(0x0a1f13, 1)
+    this.renderer.setClearColor(0x0b2528, 1)
     this.camera.position.set(0, 0, CAM_Z)
 
     canvas.addEventListener('webglcontextlost', this.onContextLost)
@@ -126,6 +154,7 @@ export class HeroScene {
       fragmentShader: BG_FRAG,
       uniforms: {
         uGlow: { value: 0 },
+        uTint: { value: new THREE.Vector3(0.3, 0.17, 0.15) },
         uCenter: { value: new THREE.Vector2(0.5, 0.5) },
         uAspect: { value: 1.6 },
       },
@@ -320,6 +349,7 @@ export class HeroScene {
     // ---- latar ----
     const bu = this.bgMat.uniforms
     bu.uGlow.value = grow
+    tintAt(s, bu.uTint.value)
     bu.uCenter.value.set(0.5 + (this.plantX * move * (1 - calm)) / this.vw, 0.5 + (heroY * (1 - move)) / this.vh)
 
     this.renderer.render(this.scene, this.camera)

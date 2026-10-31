@@ -15,7 +15,7 @@ Situs membaca folder-folder itu setiap kali ada perubahan di GitHub, lalu menyus
 | Folder | Tampil di bagian | Bentuk tampilan |
 |---|---|---|
 | `content/penelitian/` | Penelitian | daftar baris, dengan tombol Detail dan PDF |
-| `content/publikasi/` | Publikasi dan hasil | daftar baris dengan filter (jurnal, prosiding, buku, hak cipta) |
+| `content/publikasi/` | Publikasi dan hasil | daftar baris dengan filter (jurnal, prosiding, buku, hak cipta). Di layar lebar daftar dibagi per 4 karya dengan tombol Berikutnya |
 | `content/pengabdian/` | Pengabdian kepada masyarakat | kartu kaca dengan foto sampul |
 | `content/dokumentasi/` | Galeri dokumentasi | ubin foto, klik untuk melihat semua foto |
 

@@ -4,6 +4,7 @@ Situs portfolio akademik untuk **Dewi Fatmawaty Sabiku, S.P., M.Si.**, dosen Pro
 
 Konsepnya: partikel biji yang tumbuh menjadi tumbuhan seiring halaman digulir. Foto di hero bersifat semi-3D dan menoleh mengikuti kursor. Semua teks tetap berupa HTML biasa, jadi bisa dibaca mesin pencari dan pembaca layar.
 
+- Di layar lebar, halaman berpindah per bagian (satu gerakan roda atau satu tekan PageDown berpindah satu halaman). Di ponsel dan layar pendek halaman menggulir biasa.
 - Alamat setelah deploy: https://lannnmmmm.github.io/df-sabiku/
 - Bahasa: Indonesia dan English (tombol ID / EN di pojok kanan atas)
 
